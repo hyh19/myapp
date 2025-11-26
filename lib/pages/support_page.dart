@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../widgets/feature_card.dart';
 import '../widgets/app_nav_bar.dart';
 
@@ -58,21 +59,13 @@ class SupportPage extends StatelessWidget {
           // Contact Information
           SliverList(
             delegate: SliverChildListDelegate([
-              FeatureCard(
-                title: 'Contact Information',
-                description: 'You can reach us through the following channels:',
-                items: [
-                  'Email Address: [your-email@example.com]',
-                  'Legal Address: [Your Legal Address]',
-                  'Telephone: [Your Phone Number]',
-                ],
-              ),
+              _buildContactInformationCard(context),
               FeatureCard(
                 title: 'Report an Issue',
                 description:
                     'Found a bug or experiencing a problem with the app? Here\'s how you can report it:',
                 items: [
-                  'Send an email to [your-email@example.com] with the subject line "Bug Report"',
+                  'Send an email to mrhuangyuhui@gmail.com with the subject line "Bug Report"',
                   'Please include the following information in your report:\n'
                       '• Device information (model, operating system version)\n'
                       '• App version\n'
@@ -86,7 +79,7 @@ class SupportPage extends StatelessWidget {
                 description:
                     'Have an idea for a new feature or improvement? We\'d love to hear from you!',
                 items: [
-                  'Email us at [your-email@example.com] with the subject line "Feature Request"',
+                  'Email us at mrhuangyuhui@gmail.com with the subject line "Feature Request"',
                   'Please describe:\n'
                       '• The feature or enhancement you\'d like to see\n'
                       '• How it would improve your experience\n'
@@ -99,7 +92,7 @@ class SupportPage extends StatelessWidget {
                 description:
                     'We welcome your feedback, suggestions, and comments about Batch File Rename Assistant.',
                 items: [
-                  'Share your thoughts via email at [your-email@example.com]',
+                  'Share your thoughts via email at mrhuangyuhui@gmail.com',
                   'Your feedback helps us improve the app and better serve all users',
                   'We appreciate your time and input',
                 ],
@@ -197,6 +190,73 @@ class SupportPage extends StatelessWidget {
             style: theme.textTheme.bodyMedium,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildContactInformationCard(BuildContext context) {
+    final theme = Theme.of(context);
+    const email = 'mrhuangyuhui@gmail.com';
+    
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Contact Information',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'You can reach us through the following channels:',
+              style: theme.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 16),
+            InkWell(
+              onTap: () async {
+                final uri = Uri.parse('mailto:$email');
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri);
+                }
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, right: 8),
+                    child: Icon(
+                      Icons.check_circle,
+                      size: 20,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: theme.textTheme.bodyLarge,
+                        children: [
+                          const TextSpan(text: 'Email Address: '),
+                          TextSpan(
+                            text: email,
+                            style: TextStyle(
+                              color: theme.colorScheme.primary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
