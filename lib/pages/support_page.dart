@@ -158,7 +158,7 @@ class _SupportPageState extends State<SupportPage> {
                 description:
                     'Found a bug or experiencing a problem with the app? You can report it using either the contact form above or email us directly.',
                 items: [
-                  'Use the contact form for quick reporting, or email us at mrhuangyuhui@gmail.com (subject: "Bug Report")',
+                  'Use the contact form for quick reporting, or email us directly (subject: "Bug Report")',
                   'Email is recommended if you need to attach screenshots or error logs',
                   'Please include the following information in your report:\n'
                       '• Device information (model, operating system version)\n'
@@ -174,7 +174,7 @@ class _SupportPageState extends State<SupportPage> {
                     'Have an idea for a new feature or improvement? We\'d love to hear from you! Use the contact form above or send us an email.',
                 items: [
                   'Use the contact form for quick and simple feature requests',
-                  'Email us at mrhuangyuhui@gmail.com (subject: "Feature Request") if you have detailed descriptions or mockups to share',
+                  'Email us directly (subject: "Feature Request") if you have detailed descriptions or mockups to share',
                   'Please describe:\n'
                       '• The feature or enhancement you\'d like to see\n'
                       '• How it would improve your experience\n'
@@ -188,7 +188,7 @@ class _SupportPageState extends State<SupportPage> {
                     'We welcome your feedback, suggestions, and comments about Batch File Rename Assistant. Choose the method that works best for you.',
                 items: [
                   'Use the contact form above for quick and convenient feedback',
-                  'Email us at mrhuangyuhui@gmail.com if you have longer, detailed feedback to share',
+                  'Email us directly if you have longer, detailed feedback to share',
                   'Your feedback helps us improve the app and better serve all users',
                   'We appreciate your time and input',
                 ],
@@ -364,33 +364,6 @@ class _SupportPageState extends State<SupportPage> {
               style: theme.textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Email Address',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    email,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -410,7 +383,7 @@ class _SupportPageState extends State<SupportPage> {
                   }
                 },
                 icon: const Icon(Icons.mail_outline),
-                label: const Text('Open Email Client'),
+                label: const Text('Send Email'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.colorScheme.primary,
                   foregroundColor: theme.colorScheme.onPrimary,
@@ -573,7 +546,7 @@ class _SupportPageState extends State<SupportPage> {
                         )
                       : const Icon(Icons.send_outlined),
                   label: Text(
-                    _isSubmitting ? 'Submitting...' : 'Submit',
+                    _isSubmitting ? 'Sending...' : 'Send Message',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
