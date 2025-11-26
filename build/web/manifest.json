@@ -1,11 +1,11 @@
 {
-    "name": "myapp",
-    "short_name": "myapp",
+    "name": "Batch File Rename Assistant",
+    "short_name": "File Rename",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Batch File Rename Assistant - Powerful batch file renaming tool with AI-powered smart renaming features",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
