@@ -156,9 +156,10 @@ class _SupportPageState extends State<SupportPage> {
               FeatureCard(
                 title: 'Report an Issue',
                 description:
-                    'Found a bug or experiencing a problem with the app? Here\'s how you can report it:',
+                    'Found a bug or experiencing a problem with the app? You can report it using either the contact form above or email us directly.',
                 items: [
-                  'Send an email to mrhuangyuhui@gmail.com with the subject line "Bug Report"',
+                  'Use the contact form for quick reporting, or email us at mrhuangyuhui@gmail.com (subject: "Bug Report")',
+                  'Email is recommended if you need to attach screenshots or error logs',
                   'Please include the following information in your report:\n'
                       '• Device information (model, operating system version)\n'
                       '• App version\n'
@@ -170,9 +171,10 @@ class _SupportPageState extends State<SupportPage> {
               FeatureCard(
                 title: 'Request a Feature',
                 description:
-                    'Have an idea for a new feature or improvement? We\'d love to hear from you!',
+                    'Have an idea for a new feature or improvement? We\'d love to hear from you! Use the contact form above or send us an email.',
                 items: [
-                  'Email us at mrhuangyuhui@gmail.com with the subject line "Feature Request"',
+                  'Use the contact form for quick and simple feature requests',
+                  'Email us at mrhuangyuhui@gmail.com (subject: "Feature Request") if you have detailed descriptions or mockups to share',
                   'Please describe:\n'
                       '• The feature or enhancement you\'d like to see\n'
                       '• How it would improve your experience\n'
@@ -183,9 +185,10 @@ class _SupportPageState extends State<SupportPage> {
               FeatureCard(
                 title: 'General Feedback',
                 description:
-                    'We welcome your feedback, suggestions, and comments about Batch File Rename Assistant.',
+                    'We welcome your feedback, suggestions, and comments about Batch File Rename Assistant. Choose the method that works best for you.',
                 items: [
-                  'Share your thoughts via email at mrhuangyuhui@gmail.com',
+                  'Use the contact form above for quick and convenient feedback',
+                  'Email us at mrhuangyuhui@gmail.com if you have longer, detailed feedback to share',
                   'Your feedback helps us improve the app and better serve all users',
                   'We appreciate your time and input',
                 ],
