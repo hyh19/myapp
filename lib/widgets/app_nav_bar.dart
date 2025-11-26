@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class _NavLink extends StatelessWidget {
   final String label;
@@ -83,11 +84,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : InkWell(
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/',
-                  (route) => false,
-                );
+                Get.offAllNamed('/');
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -116,7 +113,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
           onTap: isSupport
               ? null
               : () {
-                  Navigator.pushNamed(context, '/support');
+                  Get.toNamed('/support');
                 },
         ),
         const SizedBox(width: 8),
@@ -126,7 +123,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
           onTap: isPrivacy
               ? null
               : () {
-                  Navigator.pushNamed(context, '/privacy');
+                  Get.toNamed('/privacy');
                 },
         ),
         const SizedBox(width: 8),

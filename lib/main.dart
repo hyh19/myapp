@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'theme/app_theme.dart';
 import 'pages/home_page.dart';
 import 'pages/support_page.dart';
@@ -13,17 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Batch File Rename Assistant',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/support': (context) => const SupportPage(),
-        '/privacy': (context) => const PrivacyPolicyPage(),
-      },
+      getPages: [
+        GetPage(name: '/', page: () => const HomePage()),
+        GetPage(name: '/support', page: () => const SupportPage()),
+        GetPage(name: '/privacy', page: () => const PrivacyPolicyPage()),
+      ],
       debugShowCheckedModeBanner: false,
     );
   }
