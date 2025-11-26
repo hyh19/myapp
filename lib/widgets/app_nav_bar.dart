@@ -62,6 +62,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
     final isPrivacy = currentRoute == '/privacy';
 
     return AppBar(
+      automaticallyImplyLeading: false,
       title: currentRoute == '/'
           ? Row(
               mainAxisSize: MainAxisSize.min,
