@@ -21,9 +21,21 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const HomePage()),
-        GetPage(name: '/support', page: () => const SupportPage()),
-        GetPage(name: '/privacy', page: () => const PrivacyPolicyPage()),
+        GetPage(
+          name: '/',
+          page: () => const HomePage(),
+          transition: Transition.noTransition,
+        ),
+        GetPage(
+          name: '/support',
+          page: () => const SupportPage(),
+          transition: Transition.noTransition,
+        ),
+        GetPage(
+          name: '/privacy',
+          page: () => const PrivacyPolicyPage(),
+          transition: Transition.noTransition,
+        ),
       ],
       debugShowCheckedModeBanner: false,
     );
