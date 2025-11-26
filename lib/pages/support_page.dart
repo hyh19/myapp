@@ -54,7 +54,7 @@ class _SupportPageState extends State<SupportPage> {
       _isSubmitting = true;
     });
 
-    // 模拟提交延迟
+    // Simulate submission delay
     await Future.delayed(const Duration(milliseconds: 500));
 
     if (mounted) {
@@ -67,7 +67,7 @@ class _SupportPageState extends State<SupportPage> {
               Expanded(
                 child: Text(
                   'Submitted successfully! We will get back to you soon.',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ],
@@ -82,7 +82,7 @@ class _SupportPageState extends State<SupportPage> {
         ),
       );
 
-      // 清空表单
+      // Clear form
       _nameController.clear();
       _emailController.clear();
       _subjectController.clear();
@@ -145,11 +145,14 @@ class _SupportPageState extends State<SupportPage> {
             ),
           ),
 
+          // Contact Methods Section
+          SliverToBoxAdapter(
+            child: _buildContactMethodsSection(context),
+          ),
+
           // Contact Information
           SliverList(
             delegate: SliverChildListDelegate([
-              _buildContactInformationCard(context),
-              _buildContactFormCard(context),
               FeatureCard(
                 title: 'Report an Issue',
                 description:
@@ -284,61 +287,159 @@ class _SupportPageState extends State<SupportPage> {
     );
   }
 
-  Widget _buildContactInformationCard(BuildContext context) {
+  Widget _buildContactMethodsSection(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Use 720px as breakpoint, better for tablets and desktop devices
+        final isWideScreen = constraints.maxWidth > 720;
+        
+        if (isWideScreen) {
+          // Large screen: side by side, use IntrinsicHeight to ensure both cards have the same height
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: _buildContactInformationCard(context, removeMargin: true),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildContactFormCard(context, removeMargin: true),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          // Small screen: vertical stack
+          return Column(
+            children: [
+              _buildContactInformationCard(context),
+              _buildContactFormCard(context),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildContactInformationCard(BuildContext context, {bool removeMargin = false}) {
     final theme = Theme.of(context);
     const email = 'mrhuangyuhui@gmail.com';
     
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: removeMargin 
+          ? EdgeInsets.zero 
+          : const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Contact Information',
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'You can reach us through the following channels:',
-              style: theme.textTheme.bodyLarge,
+            Row(
+              children: [
+                Icon(
+                  Icons.email_outlined,
+                  color: theme.colorScheme.primary,
+                  size: 28,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Email Support',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            InkWell(
-              onTap: () async {
-                final uri = Uri.parse('mailto:$email');
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri);
-                }
-              },
+            Text(
+              'Contact us directly via email. Perfect for detailed problem descriptions or when you need to attach files.',
+              style: theme.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Email Address',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    email,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                  final uri = Uri.parse('mailto:$email');
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Unable to open email client. Please send the email manually.'),
+                          backgroundColor: theme.colorScheme.error,
+                        ),
+                      );
+                    }
+                  }
+                },
+                icon: const Icon(Icons.mail_outline),
+                label: const Text('Open Email Client'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, right: 8),
-                    child: Icon(
-                      Icons.check_circle,
-                      size: 20,
-                      color: theme.colorScheme.primary,
-                    ),
+                  Icon(
+                    Icons.info_outline,
+                    size: 18,
+                    color: theme.colorScheme.primary,
                   ),
+                  const SizedBox(width: 8),
                   Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        style: theme.textTheme.bodyLarge,
-                        children: [
-                          const TextSpan(text: 'Email Address: '),
-                          TextSpan(
-                            text: email,
-                            style: TextStyle(
-                              color: theme.colorScheme.primary,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
+                    child: Text(
+                      'We recommend including the following information in your email: problem description, device information, app version, and other relevant details. This will help us resolve your issue more quickly.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                        height: 1.4,
                       ),
                     ),
                   ),
@@ -351,26 +452,39 @@ class _SupportPageState extends State<SupportPage> {
     );
   }
 
-  Widget _buildContactFormCard(BuildContext context) {
+  Widget _buildContactFormCard(BuildContext context, {bool removeMargin = false}) {
     final theme = Theme.of(context);
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: removeMargin 
+          ? EdgeInsets.zero 
+          : const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Contact Us',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: theme.colorScheme.primary,
-                ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.contact_mail_outlined,
+                    color: theme.colorScheme.primary,
+                    size: 28,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Contact Form',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Text(
-                'Fill out the form below and we will get back to you soon:',
+                'Fill out the form below and we will get back to you soon.',
                 style: theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: 24),
@@ -379,10 +493,12 @@ class _SupportPageState extends State<SupportPage> {
                 decoration: InputDecoration(
                   labelText: 'Name',
                   hintText: 'Enter your name',
-                  prefixIcon: const Icon(Icons.person),
+                  prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  filled: true,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                 ),
                 validator: (value) => _validateRequired(value, 'name'),
                 textInputAction: TextInputAction.next,
@@ -393,10 +509,12 @@ class _SupportPageState extends State<SupportPage> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   hintText: 'Enter your email address',
-                  prefixIcon: const Icon(Icons.email),
+                  prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  filled: true,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: _validateEmail,
@@ -408,10 +526,12 @@ class _SupportPageState extends State<SupportPage> {
                 decoration: InputDecoration(
                   labelText: 'Subject',
                   hintText: 'Enter the subject',
-                  prefixIcon: const Icon(Icons.subject),
+                  prefixIcon: const Icon(Icons.subject_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  filled: true,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                 ),
                 validator: (value) => _validateRequired(value, 'subject'),
                 textInputAction: TextInputAction.next,
@@ -422,11 +542,13 @@ class _SupportPageState extends State<SupportPage> {
                 decoration: InputDecoration(
                   labelText: 'Message',
                   hintText: 'Enter your message',
-                  prefixIcon: const Icon(Icons.message),
+                  prefixIcon: const Icon(Icons.message_outlined),
                   alignLabelWithHint: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  filled: true,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                 ),
                 maxLines: 5,
                 validator: (value) => _validateRequired(value, 'message'),
@@ -435,8 +557,25 @@ class _SupportPageState extends State<SupportPage> {
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                   onPressed: _isSubmitting ? null : _handleSubmit,
+                  icon: _isSubmitting
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : const Icon(Icons.send_outlined),
+                  label: Text(
+                    _isSubmitting ? 'Submitting...' : 'Submit',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     foregroundColor: theme.colorScheme.onPrimary,
@@ -445,22 +584,6 @@ class _SupportPageState extends State<SupportPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                          ),
-                        )
-                      : const Text(
-                          'Submit',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
                 ),
               ),
             ],
