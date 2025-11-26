@@ -92,8 +92,55 @@ python3 -m http.server 8000
 - 首次部署可能需要几分钟时间
 - 确保仓库的 Pages 设置中已启用 GitHub Actions 作为部署源
 
+## 使用 Docker Compose 部署
+
+### 前置要求
+
+- Docker 和 Docker Compose 已安装
+- 已构建应用（执行 `./build.sh` 或 `flutter build web --release`）
+
+### 部署步骤
+
+1. 确保应用已构建完成，`build/web` 目录存在
+
+2. 启动服务：
+
+   ```bash
+   docker-compose up -d
+   ```
+
+3. 访问应用：
+
+   服务启动后，在浏览器中访问 `http://localhost:8080`。
+
+### 常用命令
+
+```bash
+# 启动服务（后台运行）
+docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+
+# 重启服务
+docker-compose restart
+```
+
+### Docker Compose 注意事项
+
+- 确保在运行 Docker Compose 前已执行构建脚本生成 `build/web` 目录
+- 默认使用 Nginx 官方镜像的默认配置
+- 服务运行在 8080 端口，可通过修改 `docker-compose.yml` 中的端口映射来更改
+
 ## 相关资源
 
 - [Flutter 官方文档](https://docs.flutter.dev/)
 - [GitHub Pages 文档](https://docs.github.com/pages)
 - [GitHub Actions 文档](https://docs.github.com/actions)
+- [Docker Compose 文档](https://docs.docker.com/compose/)
