@@ -56,7 +56,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 items: [
                   'Firebase Remote Config: To fetch AI service configuration settings',
                   'AI-Powered Renaming: When you use the AI renaming feature, the application connects to third-party AI services (such as OpenRouter) to process your renaming requests',
-                  'External Links: To open external links such as app store pages or GitHub repository',
                 ],
               ),
               _buildDataCollectionSection(context),
